@@ -10,7 +10,14 @@ jobs:
 
         # Put your action repo here
         uses: dwsilk/lds-feed-action@master
+        with:
+          layerid: 52054
 
       - name: Check outputs
         run: |
-          test "${{ steps.selftest.outputs.myOutput }}" == "Hello 101290"
+          test "${{ steps.selftest.outputs.updateFound }}" == "True"
+          test "${{ steps.selftest.outputs.publishedTime }}" == "2017-07-01T13:47:57+00:00"
+          test "${{ steps.selftest.outputs.totalFeatures }}" == "1993687"
+          test "${{ steps.selftest.outputs.adds }}" == "43445"
+          test "${{ steps.selftest.outputs.modifies }}" == "84108"
+          test "${{ steps.selftest.outputs.deletes }}" == "1"

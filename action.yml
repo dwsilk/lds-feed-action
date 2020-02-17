@@ -4,11 +4,26 @@ author: "Daniel Silk"
 inputs:
   layerid:
     description: "LINZ Data Service layer id"
-    default: 101290
+    default: 52054
+    required: true
+  frequency:
+    description: "Check for update in the last x number of days"
+    default: 10000
     required: true
 outputs:
-  myOutput:
+  updateFound:
     description: "Output from the action"
+  publishedTime:
+    description: "Time that the update was published"
+  totalFeatures:
+    description: "Total number of features in the layer after this updates"
+  adds:
+    description: "Number of features added by the update"
+  modifies:
+    description: "Number of features modified by the update"
+  deletes:
+    description: "Number of features deleted by the update"
+
 runs:
   using: "docker"
   image: "Dockerfile"
