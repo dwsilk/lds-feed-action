@@ -1,11 +1,13 @@
+"""This is the module."""
+
 import os
-import requests  # noqa We are just importing this to prove the dependency installed correctly
 
 
 def main():
-    my_input = os.environ["INPUT_MYINPUT"]
+    """This is the main function."""
+    layer_id = os.environ["INPUT_LAYERID"]
 
-    my_output = f"Hello {my_input}"
+    my_output = f"Hello {layer_id}"
 
     print(f"::set-output name=myOutput::{my_output}")
 

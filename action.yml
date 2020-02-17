@@ -1,10 +1,11 @@
 name: "Python Container Action Template"
 description: "Get started with Python Container actions"
-author: "Jacob Tomlinson"
+author: "Daniel Silk"
 inputs:
-  myInput:
-    description: "Input to use"
-    default: "world"
+  layerid:
+    description: "LINZ Data Service layer id"
+    default: 101290
+    required: true
 outputs:
   myOutput:
     description: "Output from the action"
