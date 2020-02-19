@@ -1,5 +1,5 @@
 FROM python:3-slim AS builder
-ADD . /app
+COPY main.py /app/main.py
 WORKDIR /app
 
 # We are installing a dependency here directly into our app source dir
