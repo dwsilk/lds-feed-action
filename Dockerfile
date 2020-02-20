@@ -1,5 +1,5 @@
 FROM python:3-slim AS builder
-COPY main.py /app/main.py
+ADD . /app
 WORKDIR /app
 
 # We are installing a dependency here directly into our app source dir
@@ -11,4 +11,4 @@ FROM gcr.io/distroless/python3-debian10
 COPY --from=builder /app /app
 WORKDIR /app
 ENV PYTHONPATH /app
-CMD ["./main.py"]
+CMD ["/app/main.py"]
