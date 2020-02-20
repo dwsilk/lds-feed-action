@@ -5,7 +5,9 @@
 
 ## Usage
 
-Describe how to use your action here.
+This GitHub Action checks the history feed of a [LINZ Data Service](https://data.linz.govt.nz/) for updates within the specified timeframe, and if found, returns statistics about that update.
+
+It is designed to be run on a cron schedule with the outputs utilised in other actions, for example creating an issue whenever a dataset is updated.
 
 ### Example workflow
 
@@ -15,66 +17,67 @@ on:
   schedule:
     # Run at 5am every Monday morning
     - cron: '0 5 * * mon'
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Run action
-
-      uses: dwsilk/lds-feed-action@master
-
-      # Configure the LINZ Data Service layer id that you want to track
-      with:
-        layer-id: 101290
+      - name: Check LDS history feed
+        id: check-lds-history-feed
+        uses: dwsilk/lds-feed-action@test
+        with:
+          layerid: 101290
+          frequency: 7
 ```
 
 ### Inputs
 
 | Input                                             | Description                                        |
 |------------------------------------------------------|-----------------------------------------------|
-| `layer-id`  | LINZ Data Service layer id    |
-| `anotherInput` _(optional)_  | An example optional input    |
+| `layerid`  | The LINZ Data Service layer id    |
+| `frequency` _(optional)_  | Number of days of history to check for dataset updates. Default: 10000.    |
 
 ### Outputs
 
 | Output                                             | Description                                        |
 |------------------------------------------------------|-----------------------------------------------|
-| `myOutput`  | An example output (returns 'Hello world')    |
+| `updateFound`  | If a dataset update was found, returns True    |
+| `publishedTime`  | A datetime for the time the dataset update was published on the LINZ Data Service    |
+| `totalFeatures`  | The total number of features in the dataset after the update    |
+| `adds`  | The number of features added by the update    |
+| `modifies`  | The number of features modified by the update    |
+| `deletes`  | The number of features deleted by the update    |
 
 ## Examples
-
-> NOTE: People ❤️ cut and paste examples. Be generous with them!
-
-### Using the optional input
-
-This is how to use the optional input.
-
-```yaml
-with:
-  layer-id: 101290
-  anotherInput: optional
-```
 
 ### Using outputs
 
 Show people how to use your outputs in another action.
 
 ```yaml
-steps:
-- uses: actions/checkout@master
-- name: Run action
-  id: ldsfeedaction
+name: Building Outlines Update Check
+on:
+  schedule:
+    # Run at 5am every Monday morning
+    - cron: '0 5 * * mon'
 
-  # Put your action name here
-  uses: dwsilk/lds-feed-action@master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check LDS history feed
+        id: check-lds-history-feed
+        uses: dwsilk/lds-feed-action@test
+        with:
+          layerid: 101290
+          frequency: 7
 
-  # Put an example of your mandatory arguments here
-  with:
-    layer-id: 101290
-
-# Put an example of using your outputs here
-- name: Check outputs
-    run: |
-    echo "Outputs - ${{ steps.ldsfeedaction.outputs.myOutput }}"
+      - name: Check outputs
+        run: |
+          echo Update found: ${{ steps.check-lds-history-feed.outputs.updateFound }}
+          echo Published time: ${{ steps.check-lds-history-feed.outputs.publishedTime }}
+          echo Total features: ${{ steps.check-lds-history-feed.outputs.totalFeatures }}
+          echo Adds: ${{ steps.check-lds-history-feed.outputs.adds }}
+          echo Modifies: ${{ steps.check-lds-history-feed.outputs.modifies }}
+          echo Deletes: ${{ steps.check-lds-history-feed.outputs.deletes }}
 ```
