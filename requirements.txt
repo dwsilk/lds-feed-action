@@ -1,4 +1,4 @@
 atoma==0.0.17
 beautifulsoup4==4.8.2
 pendulum==2.0.5
-requests==2.22.0
+requests==2.23.0
