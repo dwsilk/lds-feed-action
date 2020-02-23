@@ -57,8 +57,6 @@ jobs:
 
 ### Using outputs
 
-Show people how to use your outputs in another action.
-
 ```yaml
 name: Building Outlines Update Check
 on:
