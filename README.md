@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Check LDS history feed
         id: check-lds-history-feed
-        uses: dwsilk/lds-feed-action@test
+        uses: dwsilk/lds-feed-action@master
         with:
           layerid: 101290
           frequency: 7
@@ -72,7 +72,7 @@ jobs:
     steps:
       - name: Check LDS history feed
         id: check-lds-history-feed
-        uses: dwsilk/lds-feed-action@test
+        uses: dwsilk/lds-feed-action@master
         with:
           layerid: 101290
           frequency: 7
