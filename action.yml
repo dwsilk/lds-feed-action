@@ -1,5 +1,5 @@
-name: "Python Container Action Template"
-description: "Get started with Python Container actions"
+name: "LDS Feed Action"
+description: "Get LINZ Data Service statistics for datasets updates"
 author: "Daniel Silk"
 inputs:
   layerid:
