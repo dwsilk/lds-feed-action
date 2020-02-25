@@ -32,7 +32,8 @@ jobs:
         uses: dwsilk/lds-feed-action@master
         with:
           layerid: 101290
-          frequency: 7
+          timeframe: 7
+          units: days
 ```
 
 ### Inputs
@@ -40,7 +41,8 @@ jobs:
 | Input                                             | Description                                        |
 |------------------------------------------------------|-----------------------------------------------|
 | `layerid`  | The LINZ Data Service layer id    |
-| `frequency` _(optional)_  | Number of days of history to check for dataset updates. Default: 10000.    |
+| `timeframe` _(optional)_  | Number of days, hours or minutes of history to check for dataset updates. Default: 10000.    |
+| `units` _(optional)_  | Either `days`, `hours` or `minutes`. Default: days.    |
 
 ### Outputs
 

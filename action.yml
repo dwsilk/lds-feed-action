@@ -6,9 +6,13 @@ inputs:
     description: "LINZ Data Service layer id"
     default: 52054
     required: true
-  frequency:
-    description: "Check for update in the last x number of days"
-    default: 10000
+  timeframe:
+    description: "Check for update in the last x number of days, hours or minutes"
+    default: 7
+    required: true
+  units:
+    description: "Either 'days', 'hours' or 'minutes'"
+    default: days
     required: true
 outputs:
   updateFound:
