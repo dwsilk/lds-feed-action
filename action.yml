@@ -6,13 +6,21 @@ inputs:
     description: "LINZ Data Service layer id"
     default: 52054
     required: true
-  frequency:
-    description: "Check for update in the last x number of days"
-    default: 10000
+  timeframe:
+    description: "Check for update in the last x number of days, hours or minutes"
+    default: 7
+    required: true
+  units:
+    description: "Either 'days', 'hours' or 'minutes'"
+    default: days
     required: true
 outputs:
   updateFound:
     description: "Output from the action"
+  datasetTitle:
+    description: "The title of the dataset"
+  revisionNumber:
+    description: "The unique identifier for the dataset update"
   publishedTime:
     description: "Time that the update was published"
   totalFeatures:

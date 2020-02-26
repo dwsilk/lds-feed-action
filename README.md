@@ -6,7 +6,8 @@
 [![Conventional Commits](https://badgen.net/badge/Commits/conventional?labelColor=2e3a44&color=EC5772)](https://conventionalcommits.org)
 [![Dependabot Status](https://badgen.net/dependabot/dwsilk/lds-feed-action?icon=dependabot&labelColor=2e3a44&color=blue)](https://dependabot.com)
 [![License](https://badgen.net/badge/License/MIT?labelColor=2e3a44&color=blue)](https://github.com/dwsilk/lds-feed-action/blob/master/LICENSE)
-[![Code Style](https://badgen.net/badge/Code%20Style/black?labelColor=2e3a44&color=000000)](https://github.com/psf/black)
+[![Code Style](https://badgen.net/badge/Code%20Style/black?labelColor=2e3a44&color=000000)](https://black.readthedocs.io/en/stable/)
+[![Doc Style](https://badgen.net/badge/Doc%20Style/numpy?labelColor=2e3a44&color=000000)](https://numpydoc.readthedocs.io/en/latest/format.html)
 
 ## Usage
 
@@ -32,7 +33,8 @@ jobs:
         uses: dwsilk/lds-feed-action@master
         with:
           layerid: 101290
-          frequency: 7
+          timeframe: 7
+          units: days
 ```
 
 ### Inputs
@@ -40,13 +42,16 @@ jobs:
 | Input                                             | Description                                        |
 |------------------------------------------------------|-----------------------------------------------|
 | `layerid`  | The LINZ Data Service layer id    |
-| `frequency` _(optional)_  | Number of days of history to check for dataset updates. Default: 10000.    |
+| `timeframe` _(optional)_  | Number of days, hours or minutes of history to check for dataset updates. Default: 10000.    |
+| `units` _(optional)_  | Either `days`, `hours` or `minutes`. Default: days.    |
 
 ### Outputs
 
 | Output                                             | Description                                        |
 |------------------------------------------------------|-----------------------------------------------|
 | `updateFound`  | If a dataset update was found, returns True    |
+| `datasetTitle`  | The title of the dataset    |
+| `revisionNumber`  | The unique identifier for the dataset update    |
 | `publishedTime`  | A datetime for the time the dataset update was published on the LINZ Data Service    |
 | `totalFeatures`  | The total number of features in the dataset after the update    |
 | `adds`  | The number of features added by the update    |
@@ -78,6 +83,8 @@ jobs:
       - name: Check outputs
         run: |
           echo Update found: ${{ steps.check-lds-history-feed.outputs.updateFound }}
+          echo Dataset title: ${{ steps.check-lds-history-feed.outputs.datasetTitle }}
+          echo Revision number: ${{ steps.check-lds-history-feed.outputs.revisionNumber }}
           echo Published time: ${{ steps.check-lds-history-feed.outputs.publishedTime }}
           echo Total features: ${{ steps.check-lds-history-feed.outputs.totalFeatures }}
           echo Adds: ${{ steps.check-lds-history-feed.outputs.adds }}

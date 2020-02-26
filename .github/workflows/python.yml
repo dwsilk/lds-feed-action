@@ -18,12 +18,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
           pip install -r requirements.txt
-      - name: Commit Lint 
+      - name: Commit Lint
         run: | 
           gitlint --commits origin/master..
       - name: Format
         run: |
           black . --check --diff
+      - name: Doc Style
+        run: |
+          pydocstyle --convention=numpy .
       - name: Lint
         run: |
           pylint main.py
@@ -49,7 +52,8 @@ jobs:
       - name: Test
         run: |
           export INPUT_LAYERID=52054
-          export INPUT_FREQUENCY=10000
+          export INPUT_TIMEFRAME=10000
+          export INPUT_UNITS=days
           pytest . --cov-report xml --cov=main
       - name: Coverage
         uses: codecov/codecov-action@797e928
