@@ -78,7 +78,8 @@ jobs:
         uses: dwsilk/lds-feed-action@master
         with:
           layerid: 101290
-          frequency: 7
+          timeframe: 7
+          units: days
 
       - name: Check outputs
         run: |
