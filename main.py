@@ -1,4 +1,25 @@
-"""This is the module."""
+"""LINZ Data Service History Feed - GitHub Action.
+
+This script allows the user to interrogate a LINZ Data Service layer to
+retrieve statistics about the most recent data update within a specified
+timeframe.
+
+It accepts a LINZ Data Service layer identifier and a timeframe specified
+in either minutes, hours or days.
+
+This script requires that `atoma`, `pendulum`, `requests` and `beautifulsoup4`
+be installed within the Python environment you are running this script in (see
+requirements.txt).
+
+This file can also be imported as a module and contains the following
+functions:
+
+    * diff_timeframe - returns the time between now and when the most recent
+      update was published
+    * extract_feature_counts - extracts the feature counts from the html
+      summary provided within the Atom feed for the most recent update
+    * main - the main function of the script
+"""
 
 import os
 
@@ -10,6 +31,20 @@ from bs4 import BeautifulSoup
 
 def diff_timeframe(now: pendulum.DateTime, published_datetime: pendulum.DateTime, units: str) -> int:
     """Determine time since data update was published.
+
+    Parameters
+    ----------
+    now : pendulum.DateTime
+        The current datetime.
+    published_datetime : pendulum.DateTime
+        The datetime for the published update.
+    units : str
+        Either "minutes", "hours" or "days".
+
+    Returns
+    -------
+    int
+        The amount of time that has elapsed since the dataset was updated.
     """
     if units == "minutes":
         time_since_publish = now.diff(published_datetime).in_minutes()
@@ -22,8 +57,19 @@ def diff_timeframe(now: pendulum.DateTime, published_datetime: pendulum.DateTime
 
 
 def extract_feature_counts(html_summary: str) -> tuple:
-    """Extract the features counts using BeautifulSoup"""
+    """Extract features counts from html summary using BeautifulSoup.
 
+    Parameters
+    ----------
+    html_summary : str
+        The dataset update summary component from the LINZ Data Service Atom
+        feed.
+
+    Returns
+    -------
+    tuple
+        (total_features, adds, modifies, deletes, total_changes)
+    """
     soup = BeautifulSoup(html_summary, features="html.parser")
     feature_counts = soup.find_all("td")
 
@@ -37,7 +83,29 @@ def extract_feature_counts(html_summary: str) -> tuple:
 
 
 def main():  # pylint: disable=too-many-locals
-    """This is the main function."""
+    """Intended to be used as part of a GitHub Action.
+
+    Requires INPUT_LAYERID, INPUT_TIMEFRAME and INPUT_UNITS environment
+    variables to be set within the environment that the script is run.
+
+    Prints "set-output" commands that create Outputs within GitHub Actions.
+    The Outputs created are:
+
+        * updateFound - True if an update was found within the specified
+          timeframe, otherwise False
+        * publishedTime - The time the data update was published
+        * totalFeatures - The total number of features in the entire dataset
+          after the update
+        * adds - The number of added features in the update
+        * modifies - The number of modified features in the update
+        * deletes - The number of deleted features in the update
+
+    Raises
+    ------
+    ValueError
+        If environment variable INPUT_UNITS is not either "minutes", "hours"
+        or "days".
+    """
     layer_id = os.environ["INPUT_LAYERID"]
     timeframe = int(os.environ["INPUT_TIMEFRAME"])
     units = os.environ["INPUT_UNITS"]

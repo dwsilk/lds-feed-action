@@ -18,12 +18,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
           pip install -r requirements.txt
-      - name: Commit Lint 
+      - name: Commit Lint
         run: | 
           gitlint --commits origin/master..
       - name: Format
         run: |
           black . --check --diff
+      - name: Doc Style
+        run: |
+          pydocstyle --convention=numpy .
       - name: Lint
         run: |
           pylint main.py
