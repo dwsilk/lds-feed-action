@@ -17,6 +17,10 @@ inputs:
 outputs:
   updateFound:
     description: "Output from the action"
+  datasetTitle:
+    description: "The title of the dataset"
+  revisionNumber:
+    description: "The unique identifier for the dataset update"
   publishedTime:
     description: "Time that the update was published"
   totalFeatures:

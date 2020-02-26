@@ -49,6 +49,8 @@ def main():  # pylint: disable=too-many-locals
     feed = atoma.parse_atom_bytes(response.content)
 
     update_found = False
+    dataset_title = None
+    revision_number = None
     total_features = None
     adds = None
     modifies = None
@@ -69,6 +71,8 @@ def main():  # pylint: disable=too-many-locals
                 continue
 
             update_found = True
+            dataset_title = entry.title.value.split(f" ({layer_id}", 1)[0]
+            revision_number = entry.title.value.rsplit(" ", 1)[-1]
 
             break
 
@@ -78,6 +82,8 @@ def main():  # pylint: disable=too-many-locals
         published_time = published_time.format("MMM Do YYYY at HH:mm")
 
     print(f"::set-output name=updateFound::{update_found}")
+    print(f"::set-output name=datasetTitle::{dataset_title}")
+    print(f"::set-output name=revisionNumber::{revision_number}")
     print(f"::set-output name=publishedTime::{published_time}")
     print(f"::set-output name=totalFeatures::{total_features}")
     print(f"::set-output name=adds::{adds}")

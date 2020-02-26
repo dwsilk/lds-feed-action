@@ -17,6 +17,8 @@ def test_update_found_using_days(capsys):
     assert (
         captured.out
         == """::set-output name=updateFound::True
+::set-output name=datasetTitle::Landonline: Street Address (Deprecated)
+::set-output name=revisionNumber::146
 ::set-output name=publishedTime::Jul 1st 2017 at 13:47
 ::set-output name=totalFeatures::1993687
 ::set-output name=adds::43445
@@ -36,6 +38,8 @@ def test_update_found_using_hours(capsys):
     assert (
         captured.out
         == """::set-output name=updateFound::True
+::set-output name=datasetTitle::Landonline: Street Address (Deprecated)
+::set-output name=revisionNumber::146
 ::set-output name=publishedTime::Jul 1st 2017 at 13:47
 ::set-output name=totalFeatures::1993687
 ::set-output name=adds::43445
@@ -55,6 +59,8 @@ def test_no_update_found_using_minutes(capsys):
     assert (
         captured.out
         == """::set-output name=updateFound::False
+::set-output name=datasetTitle::None
+::set-output name=revisionNumber::None
 ::set-output name=publishedTime::None
 ::set-output name=totalFeatures::None
 ::set-output name=adds::None
@@ -62,6 +68,7 @@ def test_no_update_found_using_minutes(capsys):
 ::set-output name=deletes::None
 """
     )
+
 
 def test_raises_value_error_wrong_units():
     """Test that ValueError is raised when incorrect units provided."""
