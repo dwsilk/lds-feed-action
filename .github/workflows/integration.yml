@@ -12,10 +12,14 @@ jobs:
         uses: dwsilk/lds-feed-action@master
         with:
           layerid: 52054
+          timeframe: 1000
+          units: days
 
       - name: Check outputs
         run: |
           test "${{ steps.selftest.outputs.updateFound }}" == "True"
+          test "${{ steps.selftest.outputs.datasetTitle }}" == "Landonline: Street Address (Deprecated)"
+          test "${{ steps.selftest.outputs.revisionNumber }}" == "146"
           test "${{ steps.selftest.outputs.publishedTime }}" == "2017-07-01T13:47:57+00:00"
           test "${{ steps.selftest.outputs.totalFeatures }}" == "1993687"
           test "${{ steps.selftest.outputs.adds }}" == "43445"
