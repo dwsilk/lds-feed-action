@@ -20,7 +20,7 @@ jobs:
           test "${{ steps.selftest.outputs.updateFound }}" == "True"
           test "${{ steps.selftest.outputs.datasetTitle }}" == "Landonline: Street Address (Deprecated)"
           test "${{ steps.selftest.outputs.revisionNumber }}" == "146"
-          test "${{ steps.selftest.outputs.publishedTime }}" == "2017-07-01T13:47:57+00:00"
+          test "${{ steps.selftest.outputs.publishedTime }}" == "Jul 1st 2017 at 13:47"
           test "${{ steps.selftest.outputs.totalFeatures }}" == "1993687"
           test "${{ steps.selftest.outputs.adds }}" == "43445"
           test "${{ steps.selftest.outputs.modifies }}" == "84108"
