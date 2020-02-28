@@ -17,7 +17,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.cache/pip
-          key: lint${{ matrix.python }}-pip-${{ hashFiles('**/requirements-dev.txt') }}
+          key: lint${{ matrix.python }}-pip-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: |
             lint${{ matrix.python }}-pip-:
       - name: Install
