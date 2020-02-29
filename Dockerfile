@@ -2,7 +2,7 @@ FROM python:3-slim AS builder
 ADD . /app
 WORKDIR /app
 
-# We are installing a dependency here directly into our app source dir
+RUN python -m pip install --upgrade pip
 RUN pip install --target=/app atoma beautifulsoup4 pendulum requests
 
 # A distroless container image with Python and some basics like SSL certificates
