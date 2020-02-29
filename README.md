@@ -99,7 +99,7 @@ This example checks for updates to both the `NZ Building Outlines` and `NZ Build
 
 A bot user account within Slack then posts a message if an update is found, using `pullreminders/slack-action`. A `SLACK_BOT_TOKEN` must be stored as a Secret on the repository with this workflow configured, as well as configuring the channel identifier shown as `CXXXXXXXX` below.
 
-```
+```yaml
 name: Building Outlines Update Check
 on:
   schedule:
