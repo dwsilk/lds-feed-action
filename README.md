@@ -62,6 +62,8 @@ jobs:
 
 ### Using outputs
 
+This example checks for updates to the `NZ Building Outlines` dataset within the last week, every Monday morning at 5am. The outputs of that check are shown in the GitHub Actions console.
+
 ```yaml
 name: Building Outlines Update Check
 on:
@@ -83,12 +85,65 @@ jobs:
 
       - name: Check outputs
         run: |
-          echo Update found: ${{ steps.check-lds-history-feed.outputs.updateFound }}
-          echo Dataset title: ${{ steps.check-lds-history-feed.outputs.datasetTitle }}
-          echo Revision number: ${{ steps.check-lds-history-feed.outputs.revisionNumber }}
-          echo Published time: ${{ steps.check-lds-history-feed.outputs.publishedTime }}
-          echo Total features: ${{ steps.check-lds-history-feed.outputs.totalFeatures }}
-          echo Adds: ${{ steps.check-lds-history-feed.outputs.adds }}
-          echo Modifies: ${{ steps.check-lds-history-feed.outputs.modifies }}
-          echo Deletes: ${{ steps.check-lds-history-feed.outputs.deletes }}
+          echo "Update found: ${{ steps.check-lds-history-feed.outputs.updateFound }}"
+          echo "Dataset title: ${{ steps.check-lds-history-feed.outputs.datasetTitle }}"
+          echo "Revision number: ${{ steps.check-lds-history-feed.outputs.revisionNumber }}"
+          echo "Published time: ${{ steps.check-lds-history-feed.outputs.publishedTime }}"
+          echo "Total features: ${{ steps.check-lds-history-feed.outputs.totalFeatures }}"
+          echo "Adds: ${{ steps.check-lds-history-feed.outputs.adds }}"
+          echo "Modifies: ${{ steps.check-lds-history-feed.outputs.modifies }}"
+          echo "Deletes: ${{ steps.check-lds-history-feed.outputs.deletes }}"
 ```
+
+This example checks for updates to both the `NZ Building Outlines` and `NZ Building Outlines (All Sources)` datasets within the last day, every morning at 7am. The outputs of that check are shown in the GitHub Actions console.
+
+A bot user account within Slack then posts a message if an update is found, using `pullreminders/slack-action`. A `SLACK_BOT_TOKEN` must be stored as a Secret on the repository with this workflow configured, as well as configuring the channel identifier shown as `CXXXXXXXX` below.
+
+```
+name: Building Outlines Update Check
+on:
+  schedule:
+    # Daily at 7am
+    - cron: '0 7 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        layer_id: [101290, 101292]
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Check LDS history feed
+        id: check-lds-history-feed
+        uses: dwsilk/lds-feed-action@master
+        with:
+          layerid: ${{ matrix.layer_id }}
+          timeframe: 1
+          units: days
+
+      - name: Check outputs
+        id: check-outputs
+        run: |
+          echo "Update found: ${{ steps.check-lds-history-feed.outputs.updateFound }}"
+          echo "Dataset title: ${{ steps.check-lds-history-feed.outputs.datasetTitle }}"
+          echo "Revision number: ${{ steps.check-lds-history-feed.outputs.revisionNumber }}"
+          echo "Published time: ${{ steps.check-lds-history-feed.outputs.publishedTime }}"
+          echo "Total features: ${{ steps.check-lds-history-feed.outputs.totalFeatures }}"
+          echo "Adds: ${{ steps.check-lds-history-feed.outputs.adds }}"
+          echo "Modifies: ${{ steps.check-lds-history-feed.outputs.modifies }}"
+          echo "Deletes: ${{ steps.check-lds-history-feed.outputs.deletes }}"
+
+      - name: Notify Slack
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: pullreminders/slack-action@master
+        if: steps.check-lds-history-feed.outputs.updateFound == 'True'
+        with:
+          args: '{\"channel\":\"CXXXXXXXX\",\"text\":\"Hello\",\"blocks\":[{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"*${{ steps.check-lds-history-feed.outputs.datasetTitle }}* · Layer ${{ matrix.layer_id }} · Revision ${{ steps.check-lds-history-feed.outputs.revisionNumber }}\"}, \"accessory\": {\"type\": \"button\", \"text\": {\"type\": \"plain_text\",\"text\": \"View Layer\"}, \"url\": \"https://data.linz.govt.nz/layer/${{ matrix.layer_id }}/?c=-40.87127%2C173.44655&e=0&lpw=650&l=${{ matrix.layer_id }}&al=m&mt=Streets&z=7&cv=0\"}}, {\"type\": \"section\",\"text\": {\"type\": \"mrkdwn\",\"text\": \":heavy_plus_sign: ${{ steps.check-lds-history-feed.outputs.adds }} Added\n:wastebasket: ${{ steps.check-lds-history-feed.outputs.deletes }} Deleted\n:construction: ${{ steps.check-lds-history-feed.outputs.modifies }} Modified\n:earth_asia: ${{ steps.check-lds-history-feed.outputs.totalFeatures }} Total Features\"}, \"accessory\": {\"type\": \"image\",\"image_url\": \"https://koordinates-tiles-c.global.ssl.fastly.net/services/tiles/v4/thumbnail/layer=${{ matrix.layer_id }},style=auto/150x150.png\", \"alt_text\": \"Dataset thumbnail\"}}, {\"type\": \"context\",\"elements\": [{\"type\": \"mrkdwn\", \"text\": \"Update published: ${{ steps.check-lds-history-feed.outputs.publishedTime }}\"}]}]}'
+```
+
+The Slack message generated by this configuration looks like this:
+
+![LDS Feed Action Post to Slack](https://user-images.githubusercontent.com/8953184/75604822-b5d72880-5b41-11ea-85ff-440a6276a78e.png)
