@@ -9,7 +9,7 @@ jobs:
         id: selftest
 
         # Put your action repo here
-        uses: dwsilk/lds-feed-action@master
+        uses: dwsilk/lds-feed-action@cache
         with:
           layerid: 52054
           timeframe: 1000
