@@ -147,6 +147,12 @@ def main():  # pylint: disable=too-many-locals
             dataset_title = entry.title.value.split(f" ({layer_id}", 1)[0]
             revision_number = entry.title.value.rsplit(" ", 1)[-1]
 
+            # Add commas as thousands separators on feature counts
+            adds = f"{int(adds):,}"
+            modifies = f"{int(modifies):,}"
+            deletes = f"{int(deletes):,}"
+            total_features = f"{int(total_features):,}"
+
             break
 
         published_time = None
