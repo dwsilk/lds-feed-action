@@ -28,7 +28,6 @@ import pendulum
 import requests
 from bs4 import BeautifulSoup
 
-
 KX_SITE_URL = "https://data.linz.govt.nz"
 OUTPUT_TIMEZONE = "Pacific/Auckland"
 OUTPUT_TIME_FORMAT = "MMM Do YYYY at HH:mm"
