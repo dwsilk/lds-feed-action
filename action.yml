@@ -24,7 +24,7 @@ outputs:
   publishedTime:
     description: "Time that the update was published"
   totalFeatures:
-    description: "Total number of features in the layer after this updates"
+    description: "Total number of features in the layer after this update"
   adds:
     description: "Number of features added by the update"
   modifies:

@@ -11,7 +11,7 @@
 
 ## Usage
 
-This GitHub Action checks the history feed of a [LINZ Data Service](https://data.linz.govt.nz/) for updates within the specified timeframe, and if found, returns statistics about that update.
+This GitHub Action checks the history feed of a [LINZ Data Service](https://data.linz.govt.nz/) dataset for updates within the specified timeframe, and if found, returns statistics about that update.
 
 It is designed to be run on a cron schedule with the outputs utilised in other actions, for example creating an issue whenever a dataset is updated.
 
