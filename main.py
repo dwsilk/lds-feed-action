@@ -63,6 +63,10 @@ def diff_timeframe(now: pendulum.DateTime, published_datetime: pendulum.DateTime
 def extract_feature_counts(html_summary: str) -> tuple:
     """Extract features counts from html summary using BeautifulSoup.
 
+    If the html_summary from a raster dataset is supplied, there won't be any
+    feature counts. An IndexError exception is caught and a tuple containing
+    'None' values is returned.
+
     Parameters
     ----------
     html_summary : str
@@ -77,10 +81,14 @@ def extract_feature_counts(html_summary: str) -> tuple:
     soup = BeautifulSoup(html_summary, features="html.parser")
     feature_counts = soup.find_all("td")
 
-    total_features = feature_counts[0].string
-    adds = feature_counts[1].string
-    modifies = feature_counts[2].string
-    deletes = feature_counts[3].string
+    try:
+        total_features = feature_counts[0].string
+        adds = feature_counts[1].string
+        modifies = feature_counts[2].string
+        deletes = feature_counts[3].string
+    except IndexError:
+        return (None, None, None, None, None)
+
     total_changes = int(adds) + int(modifies) + int(deletes)
 
     return (total_features, adds, modifies, deletes, total_changes)
@@ -97,7 +105,8 @@ def main():  # pylint: disable=too-many-locals
 
         * updateFound - True if an update was found within the specified
           timeframe, otherwise False
-        * publishedTime - The time the data update was published
+        * publishedTime - The time the data update was published in the
+          'Pacific/Auckland' timezone
         * totalFeatures - The total number of features in the entire dataset
           after the update
         * adds - The number of added features in the update
@@ -139,6 +148,7 @@ def main():  # pylint: disable=too-many-locals
         if time_since_publish < timeframe:
             total_features, adds, modifies, deletes, total_changes = extract_feature_counts(entry.summary.value)
 
+            # Ignore vector / table dataset updates with no feature changes
             if total_changes == 0:
                 continue
 
@@ -146,16 +156,21 @@ def main():  # pylint: disable=too-many-locals
             dataset_title = entry.title.value.split(f" ({layer_id}", 1)[0]
             revision_number = entry.title.value.rsplit(" ", 1)[-1]
 
-            # Add commas as thousands separators on feature counts
-            adds = f"{int(adds):,}"
-            modifies = f"{int(modifies):,}"
-            deletes = f"{int(deletes):,}"
-            total_features = f"{int(total_features):,}"
+            # Skip for raster datasets where feature counts are 'None'
+            if total_features:
+                # Add commas as thousands separators on feature counts
+                adds = f"{int(adds):,}"
+                modifies = f"{int(modifies):,}"
+                deletes = f"{int(deletes):,}"
+                total_features = f"{int(total_features):,}"
 
+            # Find only the most recent change
             break
 
+        # Set published_time to None if the dataset update is not within the required timeframe
         published_time = None
 
+    # Modify published time to readable format in local timezone
     if published_time:
         published_time = published_time.in_timezone(OUTPUT_TIMEZONE)
         published_time = published_time.format(OUTPUT_TIME_FORMAT)
