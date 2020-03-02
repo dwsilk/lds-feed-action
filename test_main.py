@@ -19,7 +19,7 @@ def test_update_found_using_days(capsys):
         == """::set-output name=updateFound::True
 ::set-output name=datasetTitle::Landonline: Street Address (Deprecated)
 ::set-output name=revisionNumber::146
-::set-output name=publishedTime::Jul 1st 2017 at 13:47
+::set-output name=publishedTime::Jul 2nd 2017 at 01:47
 ::set-output name=totalFeatures::1993687
 ::set-output name=adds::43445
 ::set-output name=modifies::84108
@@ -40,7 +40,7 @@ def test_update_found_using_hours(capsys):
         == """::set-output name=updateFound::True
 ::set-output name=datasetTitle::Landonline: Street Address (Deprecated)
 ::set-output name=revisionNumber::146
-::set-output name=publishedTime::Jul 1st 2017 at 13:47
+::set-output name=publishedTime::Jul 2nd 2017 at 01:47
 ::set-output name=totalFeatures::1993687
 ::set-output name=adds::43445
 ::set-output name=modifies::84108

@@ -22,7 +22,7 @@ outputs:
   revisionNumber:
     description: "The unique identifier for the dataset update"
   publishedTime:
-    description: "Time that the update was published"
+    description: "Time that the update was published in the 'Pacific/Auckland' timezone"
   totalFeatures:
     description: "Total number of features in the layer after this update"
   adds:

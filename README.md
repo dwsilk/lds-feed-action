@@ -52,7 +52,7 @@ jobs:
 | `updateFound`  | If a dataset update was found, returns True    |
 | `datasetTitle`  | The title of the dataset    |
 | `revisionNumber`  | The unique identifier for the dataset update    |
-| `publishedTime`  | A datetime for the time the dataset update was published on the LINZ Data Service    |
+| `publishedTime`  | A datetime for the 'Pacfic/Auckland' time that the dataset update was published on the LINZ Data Service    |
 | `totalFeatures`  | The total number of features in the dataset after the update    |
 | `adds`  | The number of features added by the update    |
 | `modifies`  | The number of features modified by the update    |

@@ -29,6 +29,10 @@ import requests
 from bs4 import BeautifulSoup
 
 
+OUTPUT_TIMEZONE = "Pacific/Auckland"
+OUTPUT_TIME_FORMAT = "MMM Do YYYY at HH:mm"
+
+
 def diff_timeframe(now: pendulum.DateTime, published_datetime: pendulum.DateTime, units: str) -> int:
     """Determine time since data update was published.
 
@@ -147,7 +151,8 @@ def main():  # pylint: disable=too-many-locals
         published_time = None
 
     if published_time:
-        published_time = published_time.format("MMM Do YYYY at HH:mm")
+        published_time = published_time.in_timezone(OUTPUT_TIMEZONE)
+        published_time = published_time.format(OUTPUT_TIME_FORMAT)
 
     print(f"::set-output name=updateFound::{update_found}")
     print(f"::set-output name=datasetTitle::{dataset_title}")
