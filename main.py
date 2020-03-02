@@ -29,6 +29,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
+KX_SITE_URL = "https://data.linz.govt.nz"
 OUTPUT_TIMEZONE = "Pacific/Auckland"
 OUTPUT_TIME_FORMAT = "MMM Do YYYY at HH:mm"
 
@@ -117,7 +118,7 @@ def main():  # pylint: disable=too-many-locals
     if units not in ["minutes", "hours", "days"]:
         raise ValueError("units should be either 'minutes', 'hours' or 'days'")
 
-    response = requests.get(f"https://data.linz.govt.nz/feeds/layers/{layer_id}/revisions/")
+    response = requests.get(f"{KX_SITE_URL}/feeds/layers/{layer_id}/revisions/")
     feed = atoma.parse_atom_bytes(response.content)
 
     update_found = False
