@@ -2,11 +2,11 @@ name: Lint & Test
 on: [push]
 
 jobs:
-  linter:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ['3.6', '3.7']
+        python: ['3.6', '3.7', '3.8']
     steps:
       - uses: actions/checkout@v1
       - name: Use Python ${{ matrix.python }}
@@ -40,29 +40,6 @@ jobs:
       - name: Import Sorting
         run: |
           isort -rc . --check --diff
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: ['3.6', '3.7']
-    steps:
-      - uses: actions/checkout@v1
-      - name: Use Python ${{ matrix.python }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python }}
-      - name: Pip Cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.cache/pip
-          key: test${{ matrix.python }}-pip-${{ hashFiles('**/requirements*.txt') }}
-          restore-keys: |
-            test${{ matrix.python }}-pip-:
-      - name: Install
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-          pip install -r requirements.txt
       - name: Test
         run: |
           export INPUT_LAYERID=52054
