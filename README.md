@@ -4,10 +4,11 @@
 [![Integration Test Status](https://github.com/dwsilk/lds-feed-action/workflows/Integration%20Test/badge.svg)](https://github.com/dwsilk/lds-feed-action/actions)
 [![Codecov Status](https://badgen.net/codecov/c/github/dwsilk/lds-feed-action?icon=codecov&labelColor=2e3a44&color=EC5772)](https://codecov.io/gh/dwsilk/lds-feed-action)
 [![Conventional Commits](https://badgen.net/badge/Commits/conventional?labelColor=2e3a44&color=EC5772)](https://conventionalcommits.org)
-[![Dependabot Status](https://badgen.net/dependabot/dwsilk/lds-feed-action?icon=dependabot&labelColor=2e3a44&color=blue)](https://dependabot.com)
+[![Dependabot](https://badgen.net/badge/Dependabot/enabled?icon=dependabot&labelColor=2e3a44&color=blue)](https://github.com/dwsilk/lds-feed-action/network/updates)
 [![License](https://badgen.net/badge/License/MIT?labelColor=2e3a44&color=blue)](https://github.com/dwsilk/lds-feed-action/blob/master/LICENSE)
 [![Code Style](https://badgen.net/badge/Code%20Style/black?labelColor=2e3a44&color=000000)](https://black.readthedocs.io/en/stable/)
 [![Doc Style](https://badgen.net/badge/Doc%20Style/numpy?labelColor=2e3a44&color=000000)](https://numpydoc.readthedocs.io/en/latest/format.html)
+[![Kodiak](https://badgen.net/badge/Kodiak/enabled?labelColor=2e3a44&color=F39938)](https://kodiakhq.com/)
 
 ## Usage
 
